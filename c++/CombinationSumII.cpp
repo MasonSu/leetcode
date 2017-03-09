@@ -20,6 +20,7 @@
  */
 
 #include <vector>
+#include <iostream>
 #include <algorithm>
 
 using std::vector;
@@ -27,27 +28,27 @@ using std::vector;
 class Solution {
 public:
   vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
-    if (candidates.empty())
-      return {};
-    std::sort(candidates.begin(), candidates.end());
     vector<vector<int>> result;
-    vector<int> combin;
-    combination(result, combin, candidates, target, 0);
+    vector<int> tmp;
+    std::sort(candidates.begin(), candidates.end());
+    combination(result, tmp, candidates, 0, target, 0);
     return result;
   }
 
 private:
-  void combination(vector<vector<int>>& result, vector<int>& combin, const vector<int>& candidates, int target, int begin) {
-    if (target == 0) {
-      if (std::find(result.begin(), result.end(), combin) == result.end())
-        result.push_back(combin);
+  void combination(vector<vector<int>>& result, vector<int>& tmp, const vector<int>& candidates, int sum, int target, int begin) {
+    if (sum == target) {
+      result.push_back(tmp);
       return;
     }
-
-    for (int i = begin; i < candidates.size() && target >= candidates[i]; ++i) {
-      combin.push_back(candidates[i]);
-      combination(result, combin, candidates, target - candidates[i], i + 1);
-      combin.pop_back();
+    for (int i = begin; i < candidates.size(); ++i) {
+      if (i > begin && candidates[i] == candidates[i - 1])
+        continue;
+      if (sum + candidates[i] <= target) {
+        tmp.push_back(candidates[i]);
+        combination(result, tmp, candidates, sum + candidates[i], target, i + 1);
+        tmp.pop_back();
+      }
     }
   }
 };

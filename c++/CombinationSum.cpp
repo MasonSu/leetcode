@@ -20,6 +20,7 @@
 
 /* Failed */
 #include <vector>
+#include <iostream>
 #include <algorithm>
 
 using std::vector;
@@ -27,26 +28,39 @@ using std::vector;
 class Solution {
 public:
   vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-    if (candidates.empty())
-      return {};
     vector<vector<int>> result;
-    vector<int> combin;
+    vector<int> tmp;
     std::sort(candidates.begin(), candidates.end());
-    combination(result, combin, candidates, target, 0);
+    combination(result, tmp, candidates, 0, target, 0);
     return result;
   }
 
 private:
-  void combination(vector<vector<int>>& result, vector<int>& combin, const vector<int>& candidates, int target, int begin) {
-    if (target == 0) {
-      result.push_back(combin);
+  void combination(vector<vector<int>>& result, vector<int>& tmp, const vector<int>& candidates, int sum, int target, int begin) {
+    if (sum == target) {
+      result.push_back(tmp);
       return;
     }
-    for (int i = begin; i < candidates.size() && target >= candidates[i]; ++i) {
-      combin.push_back(candidates[i]);
-      combination(result, combin, candidates, target - candidates[i], i);
-      combin.pop_back();
+    for (int i = begin; i < candidates.size(); ++i) {
+      if (sum + candidates[i] <= target) {
+        tmp.push_back(candidates[i]);
+        combination(result, tmp, candidates, sum + candidates[i], target, i);
+        tmp.pop_back();
+      }
     }
   }
 };
 
+int main(int argc, char const *argv[])
+{
+  Solution test;
+  vector<vector<int>> result;
+  vector<int> vec{2, 3, 6, 7};
+  result = test.combinationSum(vec, 7);
+  for (const vector<int> vec : result) {
+    for (const int i : vec)
+      std::cout << i << ' ';
+    std::cout << '\n';
+  }
+  return 0;
+}

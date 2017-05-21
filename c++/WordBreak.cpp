@@ -25,11 +25,13 @@ public:
     vector<int> vec(s.size() + 1, 0);
     vec[0] = 1;
     for (int i = 1; i <= s.size(); ++i) {
-      for (int j = 0; j < i; ++j)
-        if (vec[j] && std::find(wordDict.begin(), wordDict.end(), s.substr(j, i - j)) != wordDict.end()) {
-          vec[i] = true;
+      for (int j = i - 1; j >= 0; --j) {
+        string str(s.begin() + j, s.begin() + i);
+        if (vec[j] && std::find(wordDict.begin(), wordDict.end(), str) != wordDict.end()) {
+          vec[i] = 1;
           break;
         }
+      }
     }
     return vec[s.size()];
   }

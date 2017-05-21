@@ -20,36 +20,27 @@ using std::vector;
 
 class Solution {
 public:
-  int searchInsert(vector<int>& nums, int target) {
+  int search(vector<int>& nums, int target) {
+    if (nums.empty())
+      return -1;
     int low = 0, high = nums.size() - 1;
     while (low <= high) {
       int middle = low + (high - low) / 2;
-      if (nums[middle] < target)
-        low = middle + 1;
-      else if (nums[middle] > target)
-        high = middle - 1;
-      else
+      if (nums[middle] == target)
         return middle;
+      if (nums[middle] >= nums[low]) {
+        if (target >= nums[low] && target < nums[middle])
+          high = middle - 1;
+        else
+          low = middle + 1;
+      } else {
+        if (target > nums[middle] && target <= nums[high])
+          low = middle + 1;
+        else
+          high = middle - 1;
+      }
     }
     return -1;
-  }
-
-  int search(vector<int>& nums, int target) {
-    if (nums.size() == 0)
-      return -1;
-
-    vector<int>::iterator maxNumber = std::max_element(nums.begin(), nums.end());
-    vector<int> left(nums.begin(), maxNumber + 1);  /* right bound is maxNumber+1, not maxNumber*/
-    vector<int> right(maxNumber + 1, nums.end());
-
-    int index = searchInsert(left, target);
-    if (index == -1) {
-      index = searchInsert(right, target);
-      if (index != -1)
-        return maxNumber - nums.begin() + index + 1;
-    }
-
-    return index;
   }
 };
 

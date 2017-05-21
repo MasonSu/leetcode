@@ -20,8 +20,8 @@ public:
       return 0;
     int global_max = nums[0], local_max = nums[0];
     for (int i = 1; i < nums.size(); ++i) {
-      local_max = local_max + nums[i] > nums[i] ? local_max + nums[i] : nums[i];
-      global_max = global_max > local_max ? global_max : local_max;
+      local_max = local_max > 0 ? local_max + nums[i] : nums[i];
+      global_max = local_max > global_max ? local_max : global_max;
     }
     return global_max;
   }

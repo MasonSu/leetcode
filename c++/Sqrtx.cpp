@@ -7,21 +7,17 @@
 
 #include <iostream>
 
-using std::cout;
-
 class Solution {
 public:
   int mySqrt(int x) {
-    if (x < 0)
-      return -1;
-    if (x == 1)
-      return 1;
-    int low = 0, high = x;
+    if (x == 0)
+      return 0;
+    int low = 1, high = x;
     while (low <= high) {
-      long middle = low + (high - low) / 2;  /* middle must be long, or middle^2 will overflow*/
-      if (middle * middle < x)
+      int middle = low + (high - low) / 2;  
+      if (middle < x / middle)
         low = middle + 1;
-      else if (middle * middle > x)
+      else if (middle > x / middle)
         high = middle - 1;
       else
         return middle;

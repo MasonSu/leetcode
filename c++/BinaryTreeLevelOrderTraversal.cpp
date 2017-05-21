@@ -33,6 +33,34 @@ struct TreeNode {
   TreeNode(int x): val(x), left(NULL), right(NULL) {}
 };
 
+/*class Solution {
+public:
+  vector<vector<int>> levelOrder(TreeNode *root) {
+    if (root == NULL)
+      return {};
+    vector<vector<int>> result;
+    vector<int> vec;
+    queue<TreeNode*> nodes1, nodes2;
+    nodes1.push(root);
+    while (nodes1.size()) {
+      root = nodes1.front();
+      nodes1.pop();
+      vec.push_back(root->val);
+      if (root->left)
+        nodes2.push(root->left);
+      if (root->right)
+        nodes2.push(root->right);
+      if (nodes1.empty()) {
+        result.push_back(vec);
+        vec.clear();
+        nodes1 = nodes2;
+        nodes2 = queue<TreeNode*>();
+      }
+    }
+    return result;
+  }
+};*/
+
 class Solution {
 public:
   vector<vector<int>> levelOrder(TreeNode* root) {

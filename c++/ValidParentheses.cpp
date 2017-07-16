@@ -49,10 +49,11 @@ public:
       else if (c == '[')
         parentheses.push(']');
       else {
+        /* need to check empty or it will core dumped */
         if (parentheses.empty() || parentheses.top() != c)
           return false;
-        else
-          parentheses.pop();
+
+        parentheses.pop();
       }
     }
     return parentheses.empty();

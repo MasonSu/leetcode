@@ -67,3 +67,12 @@ public:
     }
   }
 };
+
+int main(int argc, char const *argv[])
+{
+  Solution test;
+  vector<int> vec{2, 0, 1};
+  test.sortColors(vec);
+  
+  return 0;
+}

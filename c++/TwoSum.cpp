@@ -41,17 +41,18 @@ class Solution {
 public:
   vector<int> twoSum(vector<int>& nums, int target) {
     unordered_map<int, int> container;
-    for (int i = 0; i < nums.size(); ++i)
-      container.insert({nums[i], i});
 
     for (int i = 0; i < nums.size(); ++i) {
       int number = target - nums[i];
+      
       if (container.find(number) != container.end() && i != container[number]) {
         vector<int> result;
         result.push_back(i);
-        result.push_back(container[target - nums[i]]);
+        result.push_back(container[number]);
         return result;
       }
+
+      container.insert({nums[i], i});
     }
   }
 };

@@ -47,20 +47,23 @@ public:
 
 class Solution {
 public:
-  ListNode* removeNthFromEnd(ListNode* head, int n) {
+  ListNode *removeNthFromEnd(ListNode *head, int n) {
     if (head == NULL)
-      return head;
-    ListNode* first = head;
+      return NULL;
+
+    ListNode dummyHead(0);
+    dummyHead.next = head;
+    ListNode *first = &dummyHead, *second = &dummyHead;
     for (int i = 0; i < n; ++i)
       first = first->next;
-    if (first == NULL)
-      return head->next;
-    ListNode* second = head;
-    while (first->next != NULL) {
+
+    while (first->next) {
       first = first->next;
       second = second->next;
     }
+
     second->next = second->next->next;
-    return head;
+
+    return dummyHead.next;
   }
 };

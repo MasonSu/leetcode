@@ -4,7 +4,7 @@
  *
  */
 
-
+#include <iostream>
 #include <vector>
 #include <stack>
 
@@ -17,7 +17,8 @@ struct ListNode {
   ListNode(int x): val(x), next(nullptr) {}
 };
 
-class Solution {
+/* 如果不能修改输入的话，就不能翻转链表 */
+/*class Solution {
 public:
   vector<int> printListFromTailToHead(ListNode *head) {
     if (head == nullptr)
@@ -33,5 +34,24 @@ public:
       node.pop();
     }
     return result;
+  }
+};*/
+
+class Solution {
+public:
+  vector<int> printListFromTailToHead(ListNode *head) {
+    vector<int> result;
+
+    printFromTailToHead(head, result);
+
+    return result;
+  }
+
+private:
+  void printFromTailToHead(ListNode *head, vector<int>& result) {
+    if (head == NULL)
+      return;
+    printFromTailToHead(head->next, result);
+    result.push_back(head->val);
   }
 };

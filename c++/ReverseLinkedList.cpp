@@ -1,4 +1,4 @@
-/** 
+/**
  * Reverse a singly linked list.
  */
 
@@ -10,7 +10,7 @@ struct ListNode {
   ListNode(int x): val(x), next(NULL) {}
 };
 
-class Solution {
+/*class Solution {
 public:
   ListNode *reverseList(ListNode *head) {
     ListNode dummyHead(0);
@@ -23,5 +23,21 @@ public:
     }
 
     return dummyHead.next;
+  }
+};*/
+
+class Solution {
+public:
+  ListNode *reverseList(ListNode *head) {
+    ListNode *prev = NULL;
+
+    while (head) {
+      ListNode *node = head->next;
+      head->next = prev;
+      prev = head;
+      head = node;
+    }
+
+    return prev;
   }
 };

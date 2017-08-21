@@ -8,29 +8,32 @@
 
 #include <iostream>
 
+/* 最开始如果遍历修改了str, 记得一定要恢复, 否则str已经不再指向原来的位置了 */
 class Solution {
 public:
   void replaceSpace(char *str, int length) {
-    int countSpace = 0, orginLength = 0;
-    char *ptr1 = str;
-    while (*ptr1 != '\0') {
-      if (*ptr1 == ' ')
-        countSpace++;
-      ptr1++;
-      orginLength++;
+    int originLength = 0, count = 0;
+    char *ptr = str;
+
+    while (*ptr != '\0') {
+      originLength++;
+      if (*ptr == ' ')
+        count++;
+      ptr++;
     }
-    if (orginLength + countSpace * 2 > length)
-      return;
-    char *ptr2 = ptr1 + countSpace * 2;
-    while (ptr1 != ptr2) {
-      if (*ptr1 != ' ') {
-        *ptr2-- = *ptr1--;
+
+    int size = originLength + count * 2 - 1;
+    str[size + 1] = '\0';
+    for (int i = originLength - 1; i >= 0; --i) {
+      if (str[i] == ' ') {
+        str[size--] = '0';
+        str[size--] = '2';
+        str[size--] = '%';
       } else {
-        *ptr2-- = '0';
-        *ptr2-- = '2';
-        *ptr2-- = '%';
-        ptr1--;
+        str[size] = str[i];
+        size--;
       }
     }
   }
 };
+

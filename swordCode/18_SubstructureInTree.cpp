@@ -14,23 +14,24 @@ struct TreeNode {
 
 class Solution {
 public:
-  bool HasSubtree(TreeNode *pRoot1, TreeNode *pRoot2) {
+  bool HasSubtree(TreeNode* pRoot1, TreeNode* pRoot2)
+  {
     if (pRoot1 == NULL || pRoot2 == NULL)
       return false;
-    if (isSame(pRoot1, pRoot2))
+
+    if (pRoot1->val == pRoot2->val && isSame(pRoot1, pRoot2))
       return true;
     else
       return HasSubtree(pRoot1->left, pRoot2) || HasSubtree(pRoot1->right, pRoot2);
   }
 
 private:
-  bool isSame(TreeNode *t1, TreeNode *t2) {
-    /*if (t2 == NULL)
+  bool isSame(TreeNode* t1, TreeNode *t2) {
+    if (t2 == NULL)
       return true;
     if (t1 == NULL)
-      return false;*/
-    if (t1 == NULL || t2 == NULL)
-      return t1 == t2;
+      return false;
+
     if (t1->val == t2->val)
       return isSame(t1->left, t2->left) && isSame(t1->right, t2->right);
     else

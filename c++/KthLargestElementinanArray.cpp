@@ -13,29 +13,12 @@
  */
 
 #include <vector>
-#include <algorithm>
-#include <set>
-#include <iostream>
+#include <queue>
 
 using std::vector;
-using std::multiset;
+using std::priority_queue;
 
 /*class Solution {
-public:
-  int findKthLargest(vector<int>& nums, int k) {
-    multiset<int> number(nums.begin(), nums.begin() + k);
-
-    for (int i = k; i < nums.size(); ++i) {
-      if (nums[i] > *number.begin()) {
-        number.erase(number.begin());
-        number.insert(nums[i]);
-      }
-    }
-    return *number.begin();
-  }
-};*/
-
-class Solution {
 public:
   int findKthLargest(vector<int>& nums, int k) {
     int low = 0, high = nums.size() - 1;
@@ -61,16 +44,22 @@ private:
         index++;
       }
     }
-    /* Not std::swap(pivot, nums[index]) */
+
     std::swap(nums[high], nums[index]);
     return index;
   }
-};
+};*/
 
-int main(int argc, char const *argv[])
-{
-  Solution test;
-  vector<int> vec{3,2,1,5,6,4};
-  std::cout << test.findKthLargest(vec, 2) << '\n';
-  return 0;
-}
+class Solution {
+public:
+  int findKthLargest(vector<int>& nums, int k) {
+    priority_queue<int> heap;
+    for (int i : nums) {
+      heap.push(-i);
+      if (heap.size() > k)
+        heap.pop();
+    }
+
+    return -heap.top();
+  }
+};

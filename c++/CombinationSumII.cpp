@@ -19,6 +19,7 @@
  *
  */
 
+/* Failed */
 #include <vector>
 #include <iostream>
 #include <algorithm>
@@ -29,26 +30,31 @@ class Solution {
 public:
   vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
     vector<vector<int>> result;
-    vector<int> tmp;
+    vector<int> vec;
+
     std::sort(candidates.begin(), candidates.end());
-    combination(result, tmp, candidates, 0, target, 0);
+    backtracking(result, vec, candidates, target, 0);
+
     return result;
   }
 
 private:
-  void combination(vector<vector<int>>& result, vector<int>& tmp, const vector<int>& candidates, int sum, int target, int begin) {
-    if (sum == target) {
-      result.push_back(tmp);
+  void backtracking(vector<vector<int>>& result, vector<int>& vec, vector<int>& candidates, int target, int begin) {
+    if (target == 0) {
+      result.push_back(vec);
       return;
     }
+
     for (int i = begin; i < candidates.size(); ++i) {
+      /* 这步用来去重，很关键 */
       if (i > begin && candidates[i] == candidates[i - 1])
         continue;
-      if (sum + candidates[i] <= target) {
-        tmp.push_back(candidates[i]);
-        combination(result, tmp, candidates, sum + candidates[i], target, i + 1);
-        tmp.pop_back();
-      }
+
+      if (candidates[i] > target)
+        break;
+      vec.push_back(candidates[i]);
+      backtracking(result, vec, candidates, target - candidates[i], i + 1);
+      vec.pop_back();
     }
   }
 };

@@ -25,6 +25,7 @@
 #include <vector>
 #include <queue>
 #include <deque>
+#include <iterator>
 
 using std::vector;
 using std::queue;
@@ -59,7 +60,7 @@ public:
       }
       myDeque.push_front(vec);
     }
-    vector<vector<int>> result(myDeque.begin(), myDeque.end());
+    vector<vector<int>> result(make_move_iterator(myDeque.begin()), make_move_iterator(myDeque.end()));
     return result;
   }
 };

@@ -1,4 +1,4 @@
-/** 
+/**
  * Given a collection of intervals, merge all overlapping intervals.
  *
  * For example,
@@ -35,6 +35,32 @@ public:
           result.back().end = intervals[i].end;
       }
     }
+    return result;
+  }
+};
+
+class Solution2 {
+public:
+  vector<Interval> merge(vector<Interval>& intervals) {
+    if (intervals.empty())
+      return {};
+
+    std::sort(intervals.begin(), intervals.end(),
+    [](const Interval & a, const Interval & b) {return a.start < b.start;});
+
+    vector<Interval> result;
+    Interval init = intervals[0];
+
+    for (int i = 1; i < intervals.size(); ++i) {
+      if (intervals[i].start > init.end) {
+        result.push_back(init);
+        init = intervals[i];
+      } else if (intervals[i].end > init.end) {
+        init.end = intervals[i].end;
+      }
+    }
+
+    result.push_back(init);
     return result;
   }
 };

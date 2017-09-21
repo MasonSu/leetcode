@@ -1,6 +1,6 @@
-/** 
- * Given a binary tree, return the zigzag level order traversal 
- * of its nodes' values. (ie, from left to right, then right to 
+/**
+ * Given a binary tree, return the zigzag level order traversal
+ * of its nodes' values. (ie, from left to right, then right to
  * left for the next level and alternate between).
  *
  * For example:
@@ -44,15 +44,15 @@ public:
     nodes.push(root);
     bool zigzag = true;
     while (nodes.size()) {
-      vector<int> vec;
       int size = nodes.size();
+      vector<int> vec(size);
       for (int i = 0; i < size; ++i) {
         TreeNode *root = nodes.front();
         nodes.pop();
-        if (zigzag)
-          vec.push_back(root->val);
-        else
-          vec.insert(vec.begin(), root->val);
+
+        int index = zigzag ? i : size - 1 - i;
+        vec[index] = root->val;
+
         if (root->left)
           nodes.push(root->left);
         if (root->right)

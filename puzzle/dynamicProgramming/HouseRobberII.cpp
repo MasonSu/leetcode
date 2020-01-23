@@ -20,18 +20,22 @@ public:
     int rob(vector<int>& nums) {
         if (nums.empty())
             return 0;
-        return std::max(nums[0] + robMax(nums, 2, nums.size() - 2), robMax(nums, 1, nums.size() - 1));
+        return std::max(robmoney(nums, 1, nums.size() - 1), 
+                        nums[0] + robmoney(nums, 2, nums.size() - 2));
     }
+
 private:
-    int robMax(vector<int>& nums, int begin, int end) {
-        if (begin > end)
+    int robmoney(vector<int>& nums, int start, int end) {
+        if (start > end)
             return 0;
-        int first = 0, second = nums[begin], result = nums[begin];
-        for (int i = begin + 1; i <= end; ++i) {
-            result = std::max(nums[i] + first, second);
-            first = second;
-            second = result;
+        int length = end - start + 1;
+        vector<int> vec(length + 1);
+        vec[1] = nums[start];
+        // 注意这里nums的下标
+        for (int i = 2; i <= length; ++i) {
+            vec[i] = std::max(vec[i - 1], nums[++start] + vec[i - 2]);
         }
-        return result;
+        assert(start == end);
+        return vec[length];
     }
 };

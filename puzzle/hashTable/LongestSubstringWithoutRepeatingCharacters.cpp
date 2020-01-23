@@ -135,6 +135,33 @@ public:
     }
 };
 
+// https://leetcode.com/problems/minimum-window-substring/discuss/26808/Here-is-a-10-line-template-that-can-solve-most-'substring'-problems
+class Solution5 {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if (s.empty())
+            return 0;
+        unordered_map<char, int> str_count;
+        int start = 0, end = 0, count = 0, result_length = 1;
+        while (end < s.size()) {
+            if (++str_count[s[end]] == 2) {
+                count--;
+            }
+
+            while (count < 0) {
+                if (str_count[s[start]]-- == 2) {
+                    count++;
+                }
+                start++;
+            }
+
+            result_length = std::max(result_length, end - start + 1);
+            end++;
+        }
+        return result_length;
+    }
+};
+
 TEST_CASE( "Factorials are computed", "[factorial]" ) {
     Solution4 test;
     REQUIRE(test.lengthOfLongestSubstring("abcabcbb") == 3);

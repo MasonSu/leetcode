@@ -11,6 +11,7 @@
 // The input array may contain duplicates, so ascending order here means <=.
 
 /* 需要排序的最短子数组长度 */
+#define CATCH_CONFIG_MAIN
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -23,37 +24,22 @@ public:
         if (nums.empty())
             return 0;
         int first = 0, second = nums.size() - 1;
-        while (first < second) {
-            if (nums[first] > nums[first + 1])
-                break;
+        while (first < second && nums[first] <= nums[first + 1])
             first++;
-        }
         if (first == second)
             return 0;
-        while (second > first) {
-            if (nums[second] < nums[second - 1])
-                break;
+        while (second > first && nums[second] >= nums[second - 1])
             second--;
+        int min = nums[first], max = nums[first];
+        for (int i = first + 1; i <= second; ++i) {
+            min = std::min(min, nums[i]);
+            max = std::max(max, nums[i]);
         }
-        /* 上面那个是最初的答案，没有考虑到区间中间有更小或更大的值 */
-        int min = nums[first], max = nums[second];
-        for (int i = first; i <= second; ++i) {
-            if (nums[i] < min)
-                min = nums[i];
-            if (nums[i] > max)
-                max = nums[i];
-        }
-
-        first--;
-        while (first >= 0 && min < nums[first]) {
+        while (first - 1 >= 0 && min < nums[first - 1])
             first--;
-        }
-
-        second++;
-        while (second <= nums.size() - 1 && max > nums[second])
+        while (second + 1 <= nums.size() - 1 && max > nums[second + 1])
             second++;
-
-        return second - first - 1;
+        return second - first + 1;
     }
 };
 
@@ -62,21 +48,22 @@ public:
     int findUnsortedSubarray(vector<int>& nums) {
         if (nums.empty())
             return 0;
-        int length = nums.size(), max = nums[0], min = nums[length - 1], end = 0, start = length - 1;
+        int length = nums.size(), max = nums[0], min = nums[length - 1], start = length - 1, end = 0;
         for (int i = 1; i < length; ++i) {
-            if (nums[i] < max) {
-                end = i;
-            } else {
+            if (nums[i] >= max) {
                 max = nums[i];
+            } else {
+                end = i;
             }
 
-            if (nums[length - 1 - i] > min) {
-                start = length - 1 - i;
+            int j = length - 1 - i;
+            if (nums[j] <= min) {
+                min = nums[j];
             } else {
-                min = nums[length - 1 - i];
+                start = j;
             }
         }
-        if (end == 0 || start == length - 1)
+        if (start == length - 1 && end == 0)
             return 0;
         return end - start + 1;
     }

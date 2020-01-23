@@ -39,10 +39,14 @@ private:
     int depth(TreeNode* root) {
         if (root == NULL)
             return 0;
-        int leftDepth = 1 + depth(root->left), rightDepth = 1 + depth(root->right);
-        if (leftDepth == 0 || rightDepth == 0 || std::abs(leftDepth - rightDepth) > 1)
+        int left = 1 + depth(root->left);
+        if (left == 0) return -1;
+        int right = 1 + depth(root->right);
+        if (right == 0) return -1;
+        if (std::abs(left - right) > 1) {
             return -1;
-        else
-            return std::max(leftDepth, rightDepth);
+        } else {
+            return std::max(left, right);
+        }
     }
 };

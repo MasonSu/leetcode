@@ -30,6 +30,30 @@
 class Solution {
 public:
     int rob(TreeNode* root) {
+        return robMoney(root);
+    }
+
+private:
+    int robMoney(TreeNode* root) {
+        if (root == NULL)
+            return 0;
+        if (history.count(root) != 0)
+            return history[root];
+        
+        int val = root->val;
+        if (root->left)
+            val += robMoney(root->left->left) + robMoney(root->left->right);
+        if (root->right)
+            val += robMoney(root->right->left) + robMoney(root->right->right);
+        return history[root] = std::max(val, robMoney(root->left) + robMoney(root->right));
+    }
+    
+    std::unordered_map<TreeNode*, int> history;
+};
+
+class Solution2 {
+public:
+    int rob(TreeNode* root) {
         if (root == NULL)
             return 0;
         vector<int> result = dfs(root);

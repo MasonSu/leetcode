@@ -1,4 +1,5 @@
-// Given a string S and a string T, find the minimum window in S which will contain all the characters in T in complexity O(n).
+// Given a string S and a string T, find the minimum window in S 
+// which will contain all the characters in T in complexity O(n).
 
 // Example:
 
@@ -6,8 +7,10 @@
 // Output: "BANC"
 // Note:
 
-// If there is no such window in S that covers all characters in T, return the empty string "".
-// If there is such window, you are guaranteed that there will always be only one unique minimum window in S.
+// If there is no such window in S that covers all characters in T, 
+// return the empty string "".
+// If there is such window, you are guaranteed that there will always 
+// be only one unique minimum window in S.
 
 #define CATCH_CONFIG_MAIN
 #include <bits/stdc++.h>
@@ -20,30 +23,30 @@ class Solution {
 public:
     string minWindow(string s, string t) {
         if (s.size() < t.size())
-        	return "";
-        std::unordered_map<char, int> target_count;
-        for (auto &c : t) {
-        	target_count[c]++;
+            return "";
+        int count = 0;
+        unordered_map<char, int> um;
+        for (auto c : t) {
+            um[c]++;
+            count++;
         }
-        int start = 0, end = 0, count = 0, result_start = -1, result_length = INT_MAX;
-        while (end < s.size()) {
-        	if (--target_count[s[end]] >= 0)
-        		count++;
-        	while (count == t.size()) {
-        		if (end - start + 1 < result_length) {
-        			result_start = start;
-        			result_length = end - start + 1;
-        		}
-        		if (++target_count[s[start]] > 0) {
-        			count--;
-        		}
-        		start++;
-        	}
-        	end++;
+        int result_length = INT_MAX, result_start = 0;
+        int first = 0;
+        for (int i = 0; i < s.size(); ++i) {
+            if (um[s[i]]-- > 0)
+                count--;
+            while (count == 0) {
+                if (i - first + 1 < result_length) {
+                    result_length = i - first + 1;
+                    result_start = first;
+                }
+                if (++um[s[first]] > 0)
+                    count++;
+                first++;
+            }
         }
-        	
         if (result_length == INT_MAX)
-        	return "";
+            return "";
         return s.substr(result_start, result_length);
     }
 };

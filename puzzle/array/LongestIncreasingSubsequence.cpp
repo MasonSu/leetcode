@@ -22,16 +22,30 @@ public:
     int lengthOfLIS(vector<int>& nums) {
         if (nums.empty())
             return 0;
-        vector<int> vec;
-        vec.push_back(nums[0]);
+        vector<int> result{nums[0]};
         for (int i = 1; i < nums.size(); ++i) {
-           auto iter = std::lower_bound(vec.begin(), vec.end(), nums[i]);
-           if (iter == vec.end())
-               vec.push_back(nums[i]);
-           else
-               *iter = nums[i];
+            if (nums[i] > result.back()) {
+                result.push_back(nums[i]);
+            } else {
+                int pos = binarySearch(result, nums[i]);
+                result[pos] = nums[i];
+            }
         }
-        return vec.size();
+        return result.size();
+    }
+    
+private:
+    int binarySearch(vector<int>& nums, int target) {
+        int start = 0, end = nums.size();
+        while (start < end) {
+            int middle = start + (end - start) / 2;
+            if (nums[middle] < target) {
+                start = middle + 1;
+            } else {
+                end = middle;
+            }
+        }
+        return end;
     }
 };
 

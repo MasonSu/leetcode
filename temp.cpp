@@ -5,31 +5,47 @@ using namespace std;
 
 #include "catch.hpp"
 
+struct ListNode {
+  int val;
+  ListNode *next;
+  ListNode(int x) : val(x), next(NULL) {}
+};
+
+ListNode *construct(vector<int> &nums) {
+    ListNode *pre = new ListNode(0);
+    ListNode *head = pre;
+    for (int i = 0; i < nums.size(); ++i) {
+        head->next = new ListNode(nums[i]);
+        head = head->next;
+    }
+    return pre->next;
+}
+
 class Solution {
 public:
-    int rob(vector<int>& nums) {
-        if (nums.empty())
-            return 0;
-        return std::max(robmoney(nums, 0, nums.size() - 2), robmoney(nums, 1, nums.size() - 1));
-    }
-
-private:
-    int robmoney(vector<int>& nums, int start, int end) {
-        if (start > end)
-            return 0;
-        int length = end - start + 1;
-        vector<int> vec(length + 1);
-        vec[1] = nums[start];
-        for (int i = 2; i <= length; ++i) {
-            vec[i] = std::max(vec[i - 1], nums[++start] + vec[i - 2]);
+    int nthSuperUglyNumber(int n, vector<int>& primes) {
+        if (n <= 1)
+            return 1;
+        int length = primes.size();
+        vector<int> result(length), index(length);
+        result[0] = 1;
+        for (int i = 1; i < n; ++i) {
+            int min = INT_MAX;
+            for (int j = 0; j < length; ++j) {
+                min = std::min(min, primes[j] * result[index[j]]);
+            }
+            result[i] = min;
+            for (int j = 0; j < length; ++j) {
+                if (primes[j] * result[index[j]] == result[i])
+                    index[j]++;
+            }
         }
-        assert(start == end);
-        return vec[length];
+        return result[n - 1];
     }
 };
 
 TEST_CASE( "Factorials are computed", "[factorial]" ) {
     Solution test;
-    vector<int> vec{6,6,4,8,4,3,3,10};
-    REQUIRE(test.rob(vec) == 27);
+    vector<int> vec{2,7,13,19};
+    REQUIRE(test.nthSuperUglyNumber(3, vec) == 4);
 }

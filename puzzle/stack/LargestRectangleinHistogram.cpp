@@ -1,4 +1,5 @@
-// Given n non-negative integers representing the histogram's bar height where the width of each bar is 1, find the area of largest rectangle in the histogram.
+// Given n non-negative integers representing the histogram's bar height where the 
+// width of each bar is 1, find the area of largest rectangle in the histogram.
 
 // Above is a histogram where width of each bar is 1, given height = [2,1,5,6,2,3].
 
@@ -23,10 +24,8 @@ public:
         /* 栈中保存数组下标，保持对应的高度递增 */
         stack<int> risingHeight;
         int max = 0, length = heights.size(), num = 0, area = 0;
-        for (int i = 0; i < length;) {
-            if (risingHeight.empty() || heights[i] >= heights[risingHeight.top()]) {
-                risingHeight.push(i++);
-            } else {
+        for (int i = 0; i < length; ++i) {
+            while (risingHeight.size() && heights[i] < heights[risingHeight.top()]) {
                 num = risingHeight.top();
                 risingHeight.pop();
                 /* area是以height[num]为最低点求得的面积，因为不管怎样选取矩形，一定是以最低的高度为基准
@@ -36,6 +35,7 @@ public:
                 area = heights[num] * (risingHeight.empty() ? i : i - risingHeight.top() - 1);
                 max = std::max(area, max);
             }
+            risingHeight.push(i);
         }
         while (risingHeight.size()) {
             num = risingHeight.top();

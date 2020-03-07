@@ -39,6 +39,7 @@ private:
 		vec.push_back(root->val);
 		if (root->val == target && !root->left && !root->right) {
 			result.push_back(vec);
+			// 这步是必须的
 			vec.pop_back();
 			return;
 		}

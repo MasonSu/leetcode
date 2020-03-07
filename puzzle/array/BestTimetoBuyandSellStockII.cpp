@@ -23,20 +23,17 @@
 // Output: 0
 // Explanation: In this case, no transaction is done, i.e. max profit = 0.
 
-// 定位连续递增子数组
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        if (prices.empty())
+        if (prices.size() < 2)
             return 0;
-        int result = 0, minIndex = 0;
+        int result = 0;
         for (int i = 1; i < prices.size(); ++i) {
-            if (prices[i] < prices[i - 1]) {
-                result += prices[i - 1] - prices[minIndex];
-                minIndex = i;
-            }
+            // 只要递增就一直持有，下降代表卖掉之前的股票，买入新的股票
+            if (prices[i] >= prices[i - 1])
+                result += prices[i] - prices[i - 1];
         }
-        result += prices.back() - prices[minIndex];
         return result;
     }
 };

@@ -23,18 +23,48 @@
 // Output: 0
 // Explanation: In this case, no transaction is done, i.e. max profit = 0.
 
+// https://www.geeksforgeeks.org/maximum-profit-by-buying-and-selling-a-share-at-most-k-times
+// k transactions at day i
+// vec[k][i] = max(vec[k][i - 1], prices[i] - prices[j] + vec[k - 1][j]) 0 <= j < i
+//           = max(vec[k][i - 1], prices[i] + vec[k - 1][j] - prices[j]) 0 <= j < i
+//           = max(vec[k][i - 1], prices[i] + max(vec[k - 1][j] - prices[j])) 0 <= j < i
+
+// O(k * N^2)
 class Solution {
 public:
-    int maxProfit(vector<int>& prices) {
-        if (prices.empty())
+    int maxProfit(vector<int> prices) {
+        if (prices.size() < 2)
             return 0;
         int length = prices.size(), k = 2;
+        // 这里是length，不是length + 1
         vector<vector<int>> vec(k + 1, vector<int>(length));
         for (int i = 1; i <= k; ++i) {
-            int localMax = -prices[0];
+            int max_diff = INT_MIN;
             for (int j = 1; j < length; ++j) {
-                vec[i][j] = std::max(vec[i][j - 1], prices[j] + localMax);
-                localMax = std::max(localMax, vec[i - 1][j - 1] - prices[j]);
+                for (int m = 0; m < j; ++m) {
+                    max_diff = std::max(max_diff, vec[i - 1][m] - prices[m]);
+                }
+                vec[i][j] = std::max(vec[i][j - 1], prices[j] + max_diff);
+            }
+        }
+        return vec[k][length - 1];
+    }
+};
+
+// O(k * N)
+class Solution2 {
+public:
+    int maxProfit(vector<int> prices) {
+        if (prices.size() < 2)
+            return 0;
+        int length = prices.size(), k = 2;
+        // 这里是length，不是length + 1
+        vector<vector<int>> vec(k + 1, vector<int>(length));
+        for (int i = 1; i <= k; ++i) {
+            int max_diff = INT_MIN;
+            for (int j = 1; j < length; ++j) {
+                max_diff = std::max(max_diff, vec[i - 1][j - 1] - prices[j - 1]);
+                vec[i][j] = std::max(vec[i][j - 1], prices[j] + max_diff);
             }
         }
         return vec[k][length - 1];

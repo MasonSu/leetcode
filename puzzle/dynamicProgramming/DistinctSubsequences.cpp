@@ -1,6 +1,11 @@
-// Given a string S and a string T, count the number of distinct subsequences of S which equals T.
+// Given a string S and a string T, count the number of distinct 
+// subsequences of S which equals T.
 
-// A subsequence of a string is a new string which is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie, "ACE" is a subsequence of "ABCDE" while "AEC" is not).
+// A subsequence of a string is a new string which is formed from 
+// the original string by deleting some (can be none) of the 
+// characters without disturbing the relative positions of the 
+// remaining characters. (ie, "ACE" is a subsequence of "ABCDE" 
+// while "AEC" is not).
 
 // Example 1:
 
@@ -77,11 +82,8 @@ public:
             return 0;
         int lengthX = s.size(), lengthY = t.size();
         vector<vector<int>> vec(lengthX + 1, vector<int>(lengthY + 1));
-        vec[0][0] = 1;
-        for (int i = 1; i <= lengthX; ++i)
+        for (int i = 0; i <= lengthX; ++i)
             vec[i][0] = 1;
-        for (int i = 1; i <= lengthY; ++i)
-            vec[0][i] = 0;
         for (int i = 1; i <= lengthX; ++i) {
             for (int j = 1; j <= lengthY; ++j) {
                 if (s[i - 1] == t[j - 1])

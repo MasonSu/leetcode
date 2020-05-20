@@ -44,3 +44,22 @@ public:
         return vec[lengthX][lengthY];
     }
 };
+
+class Solution2 {
+public:
+    int change(int amount, vector<int>& coins) {
+        if (amount == 0)
+            return 1;
+        if (coins.empty())
+            return 0;
+        vector<int> result(amount + 1, 0);
+        result[0] = 1;
+        std::sort(coins.begin(), coins.end());
+        for (int i = 0; i < coins.size(); ++i) {
+            for (int j = coins[i]; j <= amount; ++j) {
+                result[j] += result[j - coins[i]];
+            }
+        }
+        return result[amount];
+    }
+};

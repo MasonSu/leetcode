@@ -21,20 +21,20 @@
 class Solution {
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
-        unordered_set<string> us;
-        for (auto s : wordDict)
-            us.insert(s);
+        if (wordDict.empty())
+            return false;
+        unordered_set<string> us(wordDict.begin(), wordDict.end());
         int length = s.size();
         vector<int> vec(length + 1);
         vec[0] = 1;
         for (int i = 1; i <= length; ++i) {
-            for (int j = i; j <= length; ++j) {
-                if (us.count(s.substr(i - 1, j - i + 1)) != 0 && vec[i - 1] == 1)
-                    vec[j] = 1;
+            for (int j = i - 1; j >= 0; --j) {
+                if (vec[j] && us.count(s.substr(j, i - j)) != 0) {
+                    vec[i] = 1;
+                    break;
+                }
             }
-            if (vec[length] == 1)
-                return true;
         }
-        return false;
+        return vec[length];
     }
 };

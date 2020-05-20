@@ -2,7 +2,7 @@
 // of two singly linked lists begins.
 
 // 如果不相交，最后会同时指向NULL
-class Solution2 {
+class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
         if (headA == NULL || headB == NULL)

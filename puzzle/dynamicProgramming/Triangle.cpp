@@ -16,10 +16,10 @@ public:
     int minimumTotal(vector<vector<int>>& triangle) {
         if (triangle.empty())
             return 0;
-        int result = triangle[0][0];
+        if (triangle.size() == 1)
+            return triangle[0][0];
+        int result = INT_MAX;
         for (int i = 1; i < triangle.size(); ++i) {
-            if (i == triangle.size() - 1)
-                result = INT_MAX;
             for (int j = 0; j < triangle[i].size(); ++j) {
                 if (j == 0) {
                     triangle[i][j] = triangle[i - 1].front() + triangle[i][j];

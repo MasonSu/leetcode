@@ -21,7 +21,6 @@ public:
             num ^= i;
         // 快速定位第一个不为0的position
         int diff = num & (~(num - 1));
-        
         // 根据position将数组分成两组
         vector<int> result(2);
         for (int i = 0; i < nums.size(); ++i) {

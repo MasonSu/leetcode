@@ -8,14 +8,10 @@ public:
         if (nums.empty())
             return 0;
         unordered_map<int, int> um;
+        um[0] = -1;
         int sum = 0, result = 0;
         for (int i = 0; i < nums.size(); ++i) {
             sum += nums[i];
-            // 如果等于k，肯定是当前的最长长度
-            if (sum == k) {
-                result = i + 1;
-                continue;
-            }
             if (um.count(sum - k) != 0)
                 result = std::max(result, i - um[sum - k]);
             // 只有不存在时才插入，因为较小的index更可能获得更大的值

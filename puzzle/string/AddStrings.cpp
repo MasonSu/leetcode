@@ -14,18 +14,23 @@ public:
     string addStrings(string num1, string num2) {
         if (num1.empty() || num2.empty())
             return num1.empty() ? num2 : num1;
-        string result;
+        int length1 = num1.size(), length2 = num2.size();
+        string result(std::max(length1, length2) + 1, '0');
         int count = 0;
-        // count > 0 这个条件不能少
-        for (int i = num1.size() - 1, j = num2.size() - 1; i >= 0 || j >= 0 || count > 0; --i, --j) {
-            if (i >= 0)
+        for (int i = length1 - 1, j = length2 - 1; i >= 0 || j >= 0; --i, --j) {
+            if (i >= 0) {
                 count += num1[i] - '0';
-            if (j >= 0)
+            }
+            if (j >= 0) {
                 count += num2[j] - '0';
-            result += ('0' + count % 10);
+            }
+            result[std::max(i, j) + 1] = '0' + count % 10;
             count /= 10;
         }
-        std::reverse(result.begin(), result.end());
-        return result;
+        if (count == 1) {
+            result[0] = '1';
+            return result;
+        }
+        return result.substr(1);
     }
 };

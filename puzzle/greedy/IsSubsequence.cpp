@@ -30,11 +30,12 @@ public:
     bool isSubsequence(string s, string t) {
         if (s.size() > t.size())
             return false;
-        int index = 0;
-        for (int i = 0; i < t.size() && index < s.size(); ++i) {
-            if (t[i] == s[index])
-                index++;
+        int first = 0, second = 0;
+        while (first < s.size() && second < t.size()) {
+            if (s[first] == t[second])
+                first++;
+            second++;
         }
-        return index == s.size();
+        return first == s.size();
     }
 };

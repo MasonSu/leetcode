@@ -17,25 +17,25 @@
 // Longest Increasing Subsequence
 class Solution {
 public:
-    int findLongestChain(vector<vector<int>>& pairs) {
-  		if (pairs.empty())
-  			return 0;
-  		std::sort(pairs.begin(), pairs.end(), [](vector<int>& a, vector<int>& b) { return a[0] < b[0]; });
-  		vector<int> vec;
-  		vec.push_back(pairs[0][1]);
-  		for (int i = 1; i < pairs.size(); ++i) {
-  			if (pairs[i][0] > vec.back()) {
-  				vec.push_back(pairs[i][1]);
-  			} else {
-                if (pairs[i][1] < vec.back()) {
-                    int pos = getposition(vec, vec.size(), pairs[i][1]);
-                    assert(pos < vec.size());
-                    vec[pos] = pairs[i][1];
-                }
-  			}
-  		}
-  		return vec.size();      
-    }
+  int findLongestChain(vector<vector<int>>& pairs) {
+		if (pairs.empty())
+			return 0;
+		std::sort(pairs.begin(), pairs.end(), [](vector<int>& a, vector<int>& b) { return a[0] < b[0]; });
+		vector<int> vec;
+		vec.push_back(pairs[0][1]);
+		for (int i = 1; i < pairs.size(); ++i) {
+			if (pairs[i][0] > vec.back()) {
+				vec.push_back(pairs[i][1]);
+			} else {
+          if (pairs[i][1] < vec.back()) {
+            int pos = getposition(vec, vec.size(), pairs[i][1]);
+            assert(pos < vec.size());
+            vec[pos] = pairs[i][1];
+          }
+			}
+		}
+		return vec.size();      
+  }
     
 private:
 	int getposition(vector<int>& vec, int length, int target) {

@@ -22,9 +22,7 @@ public:
         // 这里可以提前初始化结果
         vector<int> result(length, -1);
         for (int i = 0; i < nums.size(); ++i) {
-            while (st.size()) {
-                if (nums[i] <= nums[st.top()])
-                    break;
+            while (st.size() && nums[i] > nums[st.top()]) {
                 result[st.top()] = nums[i];
                 st.pop();
             }
